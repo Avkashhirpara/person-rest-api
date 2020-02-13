@@ -1,6 +1,8 @@
 package com.person.restapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.person.restapi.hobby.Hobby;
+import com.person.restapi.hobby.HobbyService;
 import com.person.restapi.person.Person;
 import com.person.restapi.person.PersonService;
 import org.hamcrest.Matchers;
@@ -30,6 +32,9 @@ public class PersonControllerTest {
 
     @MockBean
     private PersonService personService;
+
+    @MockBean
+    private HobbyService hobbyService;
 
     @Test
     void get_list_of_all_persons() throws Exception{
@@ -91,6 +96,25 @@ public class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @Test
+    void test_add_Hobby_for_Person() throws Exception{
+        Mockito.when(personService.save(aric)).thenReturn(aric);
+        Mockito.when(personService.findById(1L)).thenReturn(aric);
+        Mockito.when(hobbyService.findById(1L)).thenReturn(shopping);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String personAsJson = mapper.writeValueAsString(aric);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/persons/1/hobby/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(personAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.first_name", Matchers.is(aric.getFirst_name())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.hobby[0].name", Matchers.is("shopping")))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
 
 
 
@@ -101,9 +125,13 @@ public class PersonControllerTest {
     static Person updatedAric;
     static Person jinny;
     static Person peter;
+
+    static Hobby shopping;
+
     @BeforeAll
     static void setUp() throws Exception {
 
+        shopping = new Hobby("shopping");
 
         aric = new Person("Aric", "Thomas", "Red", 24, new HashSet<>());
         updatedAric = new Person("Arics", "Thomasan", "Red", 26, new HashSet<>());
