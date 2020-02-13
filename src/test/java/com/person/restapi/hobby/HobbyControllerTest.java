@@ -68,7 +68,6 @@ public class HobbyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("shopping")))
                 .andDo(MockMvcResultHandlers.print());
-
     }
 
     @Test
@@ -83,11 +82,26 @@ public class HobbyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name",Matchers.is("Shopping")))
                 .andDo(MockMvcResultHandlers.print());
-
     }
 
-
-
+    @Test
+    void delete_hobby_associated_with_person() throws Exception{
+        Mockito.when(hobbyService.findById(1L)).thenReturn((shopping));
+        Mockito.doNothing().when(hobbyService).deleteById(shopping.getId());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/hobbies/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(MockMvcResultHandlers.print());
+    }
+    @Test
+    void delete_hobby_not_associated_with_person() throws Exception{
+        Mockito.when(hobbyService.findById(1L)).thenReturn((cricket));
+        Mockito.doNothing().when(hobbyService).deleteById(cricket.getId());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/hobbies/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
 
 
 

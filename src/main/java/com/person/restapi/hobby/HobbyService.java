@@ -22,4 +22,8 @@ public class HobbyService {
     public Hobby update(long l, Hobby updatedShopping) {
         return new Hobby();
     }
+
+    public void deleteById(long id) {
+
+    }
 }
