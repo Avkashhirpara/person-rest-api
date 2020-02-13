@@ -31,4 +31,8 @@ public class PersonService {
     public Person update(long l, Person updatedAric) {
             return new Person();
     }
+
+    public void deleteById(Person jinny) {
+
+    }
 }

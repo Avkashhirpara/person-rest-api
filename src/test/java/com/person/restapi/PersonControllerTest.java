@@ -82,6 +82,15 @@ public class PersonControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @Test
+    void test_delete_person() throws Exception{
+        Mockito.when(personService.findById(1)).thenReturn((jinny));
+        Mockito.doNothing().when(personService).deleteById(jinny);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/persons/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
 
 
 
