@@ -22,4 +22,6 @@ public class HobbyController {
         return new ResponseEntity<>(hobbyService.findAll(), HttpStatus.OK);
     }
 
+
+
 }

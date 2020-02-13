@@ -46,6 +46,19 @@ public class HobbyControllerTest {
 
     }
 
+    @Test
+    void get_hobby_by_id() throws Exception{
+        Mockito.when(hobbyService.findById(1L)).thenReturn(shopping);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/hobbies/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name",Matchers.is("shopping")))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+
+
+
     static List<Hobby> hobbies;
     static Person aric;
 
