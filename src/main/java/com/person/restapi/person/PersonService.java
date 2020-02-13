@@ -15,6 +15,6 @@ public class PersonService {
 
 
     public List<Person> findAll() {
-        return null;
+        return personRepository.findAll();
     }
 }
