@@ -1,6 +1,8 @@
 package com.person.restapi.person;
 
 
+import com.person.restapi.hobby.Hobby;
+import com.person.restapi.hobby.HobbyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,9 +24,11 @@ import java.util.List;
 public class PersonController {
 
     private PersonService personService;
+    private HobbyService hobbyService;
 
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, HobbyService hobbyService) {
         this.personService = personService;
+        this.hobbyService = hobbyService;
     }
     @ApiOperation(value = "View a list of all persons", response = List.class)
     @ApiResponses(value = {
@@ -78,12 +82,36 @@ public class PersonController {
         return new ResponseEntity<>(newPerson, HttpStatus.OK);
     }
 
+    @ApiOperation(value = " Delete Person ", response = Person.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deleted a Person "),
+            @ApiResponse(code = 401, message = "You are not authorized to delete a Person"),
+            @ApiResponse(code = 403, message = "Accessing Person you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The Person you were trying to reach is not found")
+    })
     @DeleteMapping("/persons/{id}")
     ResponseEntity<Void> deletePerson(@PathVariable(value = "id") Long personId){
         Person person = personService.findById(personId);
         person.getHobby().forEach(hobby -> hobby.removePerson(person));
         personService.deleteById(person);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = " Add hobby for Person ", response = Person.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully added a hobby for a Person "),
+            @ApiResponse(code = 401, message = "You are not authorized to add a hobby for a Person"),
+            @ApiResponse(code = 403, message = "Accessing Person you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The Person you were trying to reach is not found")
+    })
+
+    @PostMapping("/persons/{personId}/hobby/{hobbyId}")
+    ResponseEntity<Person> addHobbyToPerson(@PathVariable Long personId, @PathVariable Long hobbyId) {
+        Person person = personService.findById(personId);
+        Hobby hobby = hobbyService.findById(hobbyId);
+        person.addHobby(hobby);
+        person = personService.save(person);
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
 
