@@ -1,6 +1,7 @@
 package com.person.restapi;
 
 
+import com.person.restapi.exception.PersonNotFoundException;
 import com.person.restapi.hobby.Hobby;
 import com.person.restapi.person.Person;
 import com.person.restapi.person.PersonRepository;
@@ -57,6 +58,19 @@ public class PersonServiceTest {
         Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(aric));
         Person savedPerson = personService.update(1L,updatedAric);
         assert savedPerson.equals(updatedAric);
+    }
+
+    @Test
+    void deletePerson(){
+        Mockito.when(personRepository.save(aric)).thenReturn(aric);
+        Mockito.when(personRepository.findById(1L)).thenThrow( new PersonNotFoundException("Person Not Found"));
+        Mockito.doNothing().when(personRepository).delete(aric);
+        Person person = personService.save(aric);
+        long personId = person.getId();
+        personService.deleteById(person);
+        Assertions.assertThrows(PersonNotFoundException.class, () -> {
+            personService.findById(1);
+        });
     }
 
 

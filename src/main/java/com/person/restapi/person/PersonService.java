@@ -35,8 +35,8 @@ public class PersonService {
         return personRepository.save(updatedPerson);
     }
 
-    public void deleteById(Person jinny) {
-
+    public void deleteById(Person person) {
+        personRepository.delete( person);
     }
 
     private void arrangeReferences(Person srcPerson,Person dstPerson) {
