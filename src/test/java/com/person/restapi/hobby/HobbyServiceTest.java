@@ -48,6 +48,15 @@ public class HobbyServiceTest {
         Assertions.assertEquals(shopping,savedHobby);
     }
 
+    @Test
+    void update_hobby(){
+        Mockito.when(hobbyRepository.save(shopping)).thenReturn(shopping);
+        Mockito.when(hobbyRepository.findById(1L)).thenReturn(Optional.of(shopping));
+        Hobby savedHobby = hobbyServices.update(1L,shopping);
+        assert  savedHobby.equals(shopping);
+    }
+
+
 
     List<Person> persons;
     List<Hobby> hobbies = new ArrayList<>();
