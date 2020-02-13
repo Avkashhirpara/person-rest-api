@@ -15,4 +15,7 @@ public class HobbyService {
     public List<Hobby> findAll() {
         return null;
     }
+    public Hobby save(Hobby shopping) {
+            return  new Hobby();
+    }
 }

@@ -1,5 +1,6 @@
 package com.person.restapi.hobby;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.person.restapi.person.Person;
 import com.person.restapi.person.PersonService;
 import org.hamcrest.Matchers;
@@ -54,6 +55,20 @@ public class HobbyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name",Matchers.is("shopping")))
                 .andDo(MockMvcResultHandlers.print());
+    }
+    @Test
+    void create_new_hobby() throws Exception{
+        Mockito.when(hobbyService.save(shopping)).thenReturn(shopping);
+        ObjectMapper mapper = new ObjectMapper();
+        String hobbyAsJson = mapper.writeValueAsString(shopping);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/hobbies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(hobbyAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("shopping")))
+                .andDo(MockMvcResultHandlers.print());
+
     }
 
 
