@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -31,10 +30,8 @@ public class PersonControllerTest {
     @MockBean
     private PersonService personService;
 
-
-
     @Test
-    void getAllPerson() throws Exception{
+    void get_list_of_all_persons() throws Exception{
         Mockito.when(personService.findAll()).thenReturn(persons);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/persons")
                 .contentType(MediaType.APPLICATION_JSON))
