@@ -115,6 +115,25 @@ public class PersonControllerTest {
 
     }
 
+    @Test
+    void test_remove_hobby_from_person() throws Exception{
+        aric.removeHobby(shopping);
+        Mockito.when(personService.save(aric)).thenReturn(aric);
+        Mockito.when(personService.findById(1L)).thenReturn(aric);
+        Mockito.when(hobbyService.findById(1L)).thenReturn(shopping);
+        ObjectMapper mapper = new ObjectMapper();
+        String personAsJson = mapper.writeValueAsString(aric);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/persons/1/hobby/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(personAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.first_name", Matchers.is(aric.getFirst_name())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.hobby", Matchers.empty()))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
 
 
 
