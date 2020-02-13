@@ -41,6 +41,12 @@ public class HobbyServiceTest {
         Hobby foundHobby = hobbyServices.findById(1L);
         Assertions.assertEquals(shopping,foundHobby);
     }
+    @Test
+    void create_hobby(){
+        Mockito.when(hobbyRepository.save(shopping)).thenReturn(shopping);
+        Hobby savedHobby = hobbyServices.save(shopping);
+        Assertions.assertEquals(shopping,savedHobby);
+    }
 
 
 
