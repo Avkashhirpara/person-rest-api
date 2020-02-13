@@ -6,6 +6,11 @@ import java.util.List;
 
 @Service
 public class HobbyService {
+    private HobbyRepository hobbyRepository;
+
+    public HobbyService(HobbyRepository hobbyRepository) {
+        this.hobbyRepository = hobbyRepository;
+    }
 
 
     public Hobby findById(long l) {
