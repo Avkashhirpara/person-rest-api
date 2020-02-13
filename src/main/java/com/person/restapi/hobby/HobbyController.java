@@ -2,6 +2,7 @@ package com.person.restapi.hobby;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
@@ -41,6 +43,19 @@ public class HobbyController {
             , @RequestBody Hobby hobby){
         Hobby newHobby = (hobbyService.update(hobbyId,hobby));
         return new ResponseEntity<>(newHobby, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/hobbies/{id}")
+    ResponseEntity<String> deleteHobby(@PathVariable(value = "id") Long hobbyId){
+        Hobby hobby = hobbyService.findById(hobbyId);
+        if(hobby.getPerson().size() > 0){
+            String pesonIds = hobby.getPerson().stream()
+                    .map(person -> String.valueOf(person.getId())).collect(Collectors.joining(","));
+            return new ResponseEntity<>("Persons["+pesonIds+"] are associated with this hobby, Please remove reference first.",HttpStatus.BAD_REQUEST);
+        }
+        hobby.getPerson().forEach(person -> person.removeHobby(hobby));
+        hobbyService.deleteById(hobbyId);
+        return new ResponseEntity<>("Deleted successfully",HttpStatus.OK);
     }
 
 
