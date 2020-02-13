@@ -38,7 +38,7 @@ public class HobbyControllerTest {
 
 
     @Test
-    void get_list_of_all_hobbies() throws Exception {
+    void test_get_list_of_all_hobbies() throws Exception {
         Mockito.when(hobbyService.findAll()).thenReturn(hobbies);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/hobbies")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -48,7 +48,7 @@ public class HobbyControllerTest {
     }
 
     @Test
-    void get_hobby_by_id() throws Exception{
+    void test_get_hobby_by_id() throws Exception{
         Mockito.when(hobbyService.findById(1L)).thenReturn(shopping);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/hobbies/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -57,7 +57,7 @@ public class HobbyControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
     @Test
-    void create_new_hobby() throws Exception{
+    void test_create_new_hobby() throws Exception{
         Mockito.when(hobbyService.save(shopping)).thenReturn(shopping);
         ObjectMapper mapper = new ObjectMapper();
         String hobbyAsJson = mapper.writeValueAsString(shopping);
@@ -70,6 +70,23 @@ public class HobbyControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
     }
+
+    @Test
+    void test_update_hobby() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String hobbyAsJson = mapper.writeValueAsString(updatedShopping);
+        Mockito.when(hobbyService.update(1L,updatedShopping)).thenReturn(updatedShopping);
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/hobbies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(hobbyAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name",Matchers.is("Shopping")))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+
 
 
 

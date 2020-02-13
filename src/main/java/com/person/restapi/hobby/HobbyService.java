@@ -18,4 +18,8 @@ public class HobbyService {
     public Hobby save(Hobby shopping) {
             return  new Hobby();
     }
+
+    public Hobby update(long l, Hobby updatedShopping) {
+        return new Hobby();
+    }
 }
