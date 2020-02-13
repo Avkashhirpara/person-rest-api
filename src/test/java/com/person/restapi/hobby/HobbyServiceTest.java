@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -32,6 +33,14 @@ public class HobbyServiceTest {
         List<Hobby> hobbies  = hobbyServices.findAll();
         Hobby lastHobby = hobbies.get(hobbies.size()-1);
         Assertions.assertEquals(cricket,lastHobby);
+    }
+
+    @Test
+    void find_hobby_by_id(){
+        Mockito.when(hobbyRepository.findById(1L)).thenReturn(Optional.of(shopping));
+        Hobby foundHobby = hobbyServices.findById(1L);
+        Assertions.assertEquals(shopping,foundHobby);
+
     }
 
 
