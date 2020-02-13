@@ -28,8 +28,11 @@ public class HobbyService {
     }
 
 
-    public Hobby update(long l, Hobby updatedShopping) {
-        return new Hobby();
+    public Hobby update(Long hobbyId,Hobby hobby) {
+        Hobby updatedHobby = hobbyRepository.findById(hobbyId).
+                orElseThrow(()-> new HobbyNotFoundException("Hobby not found for this id"+hobbyId));
+        updatedHobby.setName(hobby.getName());
+        return hobbyRepository.save(updatedHobby);
     }
 
     public void deleteById(long id) {
