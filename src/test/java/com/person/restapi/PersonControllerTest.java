@@ -1,5 +1,6 @@
 package com.person.restapi;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.person.restapi.person.Person;
 import com.person.restapi.person.PersonService;
 import org.hamcrest.Matchers;
@@ -50,6 +51,21 @@ public class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.first_name",Matchers.is(aric.getFirst_name())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.last_name",Matchers.is(aric.getLast_name())))
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void create_person() throws Exception{
+        Mockito.when(personService.save(aric)).thenReturn(aric);
+        ObjectMapper mapper = new ObjectMapper();
+        String personAsJson = mapper.writeValueAsString(aric);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/persons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(personAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.first_name", Matchers.is(aric.getFirst_name())))
+                .andDo(MockMvcResultHandlers.print());
+
     }
 
 

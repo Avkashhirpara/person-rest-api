@@ -42,8 +42,9 @@ public class PersonServiceTest {
         Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(aric));
         Person foundPerson = personService.findById(1L);
         Assertions.assertEquals(aric,foundPerson);
-
     }
+
+
 
 
 

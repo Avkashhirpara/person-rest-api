@@ -1,5 +1,6 @@
 package com.person.restapi.person;
 
+import com.person.restapi.exception.PersonNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,12 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person findById(long l) {
-        return new Person();
+    public Person findById(long personId) {
+        return personRepository.findById(personId)
+                .orElseThrow(() -> new PersonNotFoundException("Person not found for PersonId +"+personId));
     }
 
+    public Object save(Person aric) {
+        return null;
+    }
 }
