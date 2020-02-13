@@ -40,6 +40,20 @@ public class PersonControllerTest {
 
     }
 
+    @Test
+    void get_person_by_id() throws Exception{
+
+        Mockito.when(personService.findById(1L)).thenReturn(aric);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/persons/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.first_name",Matchers.is(aric.getFirst_name())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.last_name",Matchers.is(aric.getLast_name())))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+
+
     static List<Person> persons;
 
     static Person aric;
