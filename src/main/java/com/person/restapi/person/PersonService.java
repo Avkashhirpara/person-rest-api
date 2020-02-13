@@ -24,7 +24,7 @@ public class PersonService {
                 .orElseThrow(() -> new PersonNotFoundException("Person not found for PersonId +"+personId));
     }
 
-    public Object save(Person aric) {
-        return null;
+    public Person save(Person aric) {
+        return new Person();
     }
 }
