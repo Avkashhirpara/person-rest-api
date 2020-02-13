@@ -49,10 +49,6 @@ public class HobbyServiceTest {
     }
 
 
-
-
-
-
     List<Person> persons;
     List<Hobby> hobbies = new ArrayList<>();
 

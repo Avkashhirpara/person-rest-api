@@ -13,18 +13,20 @@ public class HobbyService {
         this.hobbyRepository = hobbyRepository;
     }
 
-
     public Hobby findById(Long hobbyId) {
         return hobbyRepository.findById(hobbyId)
                 .orElseThrow(()-> new HobbyNotFoundException("Hobby not found for hobbyId"+hobbyId));
     }
 
     public List<Hobby> findAll() {
-        return null;
+        return hobbyRepository.findAll();
     }
-    public Hobby save(Hobby shopping) {
-            return  new Hobby();
+
+
+    public Hobby save(Hobby hobby) {
+        return hobbyRepository.save(hobby);
     }
+
 
     public Hobby update(long l, Hobby updatedShopping) {
         return new Hobby();
