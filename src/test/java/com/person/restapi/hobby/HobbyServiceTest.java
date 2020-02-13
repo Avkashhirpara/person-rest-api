@@ -1,5 +1,6 @@
 package com.person.restapi.hobby;
 
+import com.person.restapi.exception.HobbyNotFoundException;
 import com.person.restapi.person.Person;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -56,6 +57,18 @@ public class HobbyServiceTest {
         assert  savedHobby.equals(shopping);
     }
 
+    @Test
+    void delete_hobby(){
+        Mockito.when(hobbyRepository.save(shopping)).thenReturn(shopping);
+        Mockito.when(hobbyRepository.findById(1L)).thenThrow( new HobbyNotFoundException("Hobby Not Found"));
+        Mockito.doNothing().when(hobbyRepository).delete(shopping);
+        Hobby hobby = hobbyServices.save(shopping);
+        long hobbyId = hobby.getId();
+        hobbyServices.deleteById(hobbyId);
+        Assertions.assertThrows(HobbyNotFoundException.class, () -> {
+            hobbyServices.findById(1L);
+        });
+    }
 
 
     List<Person> persons;
