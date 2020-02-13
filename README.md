@@ -14,41 +14,6 @@
 - vagrant 
 - circleci
 
-## Database entities and relation
- 
-### person
-
-| ID | FIRST_NAME | LAST_NAME | FAVOURITE_COLOUR| AGE |
-|---|----------|--------------|------------------|---|
-|1|Peter | Thomas | red| 30|
-### hobby
-| ID | NAME | 
-|---|--------|
-|1|chess|
-### person-hobby 
- | HOBBY_ID | PERSON_ID | 
- |---|--------|
-|1|1|
-## How to run,test ?
-
-#### 1. Clone repository
-git clone https://github.com/Avkashhirpara/person-rest-api.git
-
-#### 2. Clone repository
-run vagrant command inside cloned directory
- 
- `vagrant up `  
-
-vagrant instance will automatically clone,build and deploy APIs. 
-vagrant instance is preconfigured with port forward.
-once system is up and running, you can browse UI on http://localhost:8080/swagger-ui.html. 
-
-<i>OR</i>
-
-For pre-installed maven and java system, run ` mvn spring-boot : run ` command.</br>
-
-you can browse UI on http://localhost:8080/swagger-ui.html.
-
 ## API structure. 
 
 ### Hobby-Controller 
@@ -74,3 +39,42 @@ you can browse UI on http://localhost:8080/swagger-ui.html.
 |DELETE | /api/v1/persons/{id} |Delete Person|
 | POST | /api/v1/persons/{personId}/hobby/{hobbyId} |Add hobby for Person |
 | DELETE | /api/v1/persons/{personId}/hobby/{hobbyId} |Remove hobby for Person |
+
+## Database entities and relation
+ 
+### person
+
+| ID | FIRST_NAME | LAST_NAME | FAVOURITE_COLOUR| AGE |
+|---|----------|--------------|------------------|---|
+|1|Peter | Thomas | red| 30|
+### hobby
+| ID | NAME | 
+|---|--------|
+|1|chess|
+### person-hobby 
+ | HOBBY_ID | PERSON_ID | 
+ |---|--------|
+|1|1|
+
+
+## How to run,test ?
+
+#### 1. Clone repository
+git clone https://github.com/Avkashhirpara/person-rest-api.git
+
+#### 2. Clone repository
+run vagrant command inside cloned directory
+ 
+ `vagrant up `  
+
+vagrant instance will automatically clone,build and deploy APIs. 
+vagrant instance is preconfigured with port forward.
+once system is up and running, you can browse UI on http://localhost:8080/swagger-ui.html. from host machine.
+
+<i>OR</i>
+
+For pre-installed maven and java system, run ` mvn spring-boot : run ` command.</br>
+
+you can browse UI on http://localhost:8080/swagger-ui.html.
+
+
