@@ -1,5 +1,6 @@
 package com.person.restapi.hobby;
 
+import com.person.restapi.exception.HobbyNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,9 @@ public class HobbyService {
     }
 
 
-    public Hobby findById(long l) {
-        return new Hobby();
+    public Hobby findById(Long hobbyId) {
+        return hobbyRepository.findById(hobbyId)
+                .orElseThrow(()-> new HobbyNotFoundException("Hobby not found for hobbyId"+hobbyId));
     }
 
     public List<Hobby> findAll() {

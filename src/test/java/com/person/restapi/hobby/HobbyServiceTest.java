@@ -40,7 +40,6 @@ public class HobbyServiceTest {
         Mockito.when(hobbyRepository.findById(1L)).thenReturn(Optional.of(shopping));
         Hobby foundHobby = hobbyServices.findById(1L);
         Assertions.assertEquals(shopping,foundHobby);
-
     }
 
 
