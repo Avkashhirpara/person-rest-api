@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,6 +76,14 @@ public class PersonController {
             , @RequestBody Person person){
         Person newPerson = (personService.update(personId,person));
         return new ResponseEntity<>(newPerson, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/persons/{id}")
+    ResponseEntity<Void> deletePerson(@PathVariable(value = "id") Long personId){
+        Person person = personService.findById(personId);
+        person.getHobby().forEach(hobby -> hobby.removePerson(person));
+        personService.deleteById(person);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
