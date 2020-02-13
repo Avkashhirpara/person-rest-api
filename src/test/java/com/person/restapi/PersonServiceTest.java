@@ -44,6 +44,13 @@ public class PersonServiceTest {
         Assertions.assertEquals(aric,foundPerson);
     }
 
+    @Test
+    void test_create_Person(){
+        Mockito.when(personRepository.save(aric)).thenReturn(aric);
+        Person savedPerson = personService.save(aric);
+        Assertions.assertEquals(aric,savedPerson);
+    }
+
 
 
 
