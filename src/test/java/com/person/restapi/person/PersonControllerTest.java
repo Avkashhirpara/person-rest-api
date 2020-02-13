@@ -1,10 +1,8 @@
-package com.person.restapi;
+package com.person.restapi.person;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.person.restapi.hobby.Hobby;
 import com.person.restapi.hobby.HobbyService;
-import com.person.restapi.person.Person;
-import com.person.restapi.person.PersonService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

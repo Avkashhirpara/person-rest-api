@@ -1,11 +1,8 @@
-package com.person.restapi;
+package com.person.restapi.person;
 
 
 import com.person.restapi.exception.PersonNotFoundException;
 import com.person.restapi.hobby.Hobby;
-import com.person.restapi.person.Person;
-import com.person.restapi.person.PersonRepository;
-import com.person.restapi.person.PersonService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -61,7 +58,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    void deletePerson(){
+    void test_delete_person(){
         Mockito.when(personRepository.save(aric)).thenReturn(aric);
         Mockito.when(personRepository.findById(1L)).thenThrow( new PersonNotFoundException("Person Not Found"));
         Mockito.doNothing().when(personRepository).delete(aric);
@@ -73,11 +70,6 @@ public class PersonServiceTest {
         });
     }
 
-
-
-
-
-
     @BeforeAll
     public void setUp() throws Exception {
         cricket = new Hobby("cricket");
@@ -86,7 +78,6 @@ public class PersonServiceTest {
         updatedAric = new Person("Arics","Thomasan", "Red",26,new HashSet<Hobby>(Arrays.asList(chess,cricket)));
         persons = new ArrayList();
         persons.add(aric);
-
     }
 
     List<Person> persons;
