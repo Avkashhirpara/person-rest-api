@@ -9,7 +9,12 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.person.restapi.person.Person;
 
 import java.io.IOException;
-
+/**
+ * Deserializer for Person entity. Used by Object Mapper
+ * to convert httpentity<Person> to Person entity
+ * @author Avkash
+ * @version v1
+ */
 public class PersonDeserializer  extends StdDeserializer<Person> {
 
     public PersonDeserializer() {
@@ -20,6 +25,14 @@ public class PersonDeserializer  extends StdDeserializer<Person> {
         super(vc);
     }
 
+    /**
+     * Convert json representation to java object of Person entity.
+     * @param jsonParser
+     * @param deserializationContext
+     * @return Person
+     * @throws IOException
+     * @throws JsonProcessingException
+     */
     @Override
     public Person deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);

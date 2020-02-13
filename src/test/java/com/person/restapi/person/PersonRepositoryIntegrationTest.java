@@ -15,7 +15,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PersonRepositoryIT {
+public class PersonRepositoryIntegrationTest {
 
 
     @Autowired

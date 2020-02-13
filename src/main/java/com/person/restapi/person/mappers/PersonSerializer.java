@@ -8,6 +8,12 @@ import com.person.restapi.person.Person;
 
 import java.io.IOException;
 
+/**
+ * Deserializer for Person entity. Used by Object Mapper
+ * to convert Person entity to its json representation.
+ * @author Avkash
+ * @version v1
+ */
 public class PersonSerializer extends StdSerializer<Person> {
 
     public PersonSerializer() {
@@ -18,6 +24,13 @@ public class PersonSerializer extends StdSerializer<Person> {
         super(t);
     }
 
+    /**
+     * Convert Person entity to json representation
+     * @param person
+     * @param jsonGenerator
+     * @param serializerProvider
+     * @throws IOException
+     */
     @Override
     public void serialize(Person person, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();

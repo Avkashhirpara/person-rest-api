@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * PersonController handles the http request to add,update,delete and view for person entity.
+ * Please see {@link com.person.restapi.person.PersonController}
+ * @author Avkashh
+ * @version v1.
+ */
 @RestController
 @RequestMapping("api/v1")
 public class PersonController {
@@ -30,6 +36,11 @@ public class PersonController {
         this.personService = personService;
         this.hobbyService = hobbyService;
     }
+
+    /**
+     * This method handles http request to retrieve a list of persons.
+     * @return org.springframework.http.ResponseEntity<List<Person>>
+     */
     @ApiOperation(value = "View a list of all persons", response = List.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
@@ -43,10 +54,14 @@ public class PersonController {
         return new ResponseEntity<>(personService.findAll(), HttpStatus.OK);
     }
 
-
+    /**
+     * This method handles http request to retrieve person by provided personId.
+     * @param personId
+     * @return org.springframework.http.ResponseEntity<Person>
+     */
     @ApiOperation(value = "Retrieve person by personId ", response = Person.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully created  a Person "),
+            @ApiResponse(code = 200, message = "Successfully retrieved a Person"),
             @ApiResponse(code = 401, message = "You are not authorized to view Person"),
             @ApiResponse(code = 403, message = "Accessing Person you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The Person you were trying to reach is not found")
@@ -56,6 +71,11 @@ public class PersonController {
         return new ResponseEntity<>(personService.findById(personId),HttpStatus.OK);
     }
 
+    /**
+     * This method handles http request to create person entity.
+     * @param person
+     * @return org.springframework.http.ResponseEntity<Person>
+     */
     @ApiOperation(value = " Create Person ", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully created a Person "),
@@ -68,6 +88,12 @@ public class PersonController {
     }
 
 
+    /**
+     * This method handles http request to update an existing person entity.
+     * @param personId
+     * @param person
+     * @return org.springframework.http.ResponseEntity<Person>
+     */
     @ApiOperation(value = " Update Person ", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated a Person "),
@@ -82,6 +108,11 @@ public class PersonController {
         return new ResponseEntity<>(newPerson, HttpStatus.OK);
     }
 
+    /**
+     * This method handles http request to delete person entity from system.
+     * @param personId
+     * @return org.springframework.http.ResponseEntity<Void>
+     */
     @ApiOperation(value = " Delete Person ", response = Void.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully deleted a Person "),
@@ -97,6 +128,12 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * This method handles http request for adding hobby in person entity.
+     * @param personId
+     * @param hobbyId
+     * @return org.springframework.http.ResponseEntity<person>
+     */
     @ApiOperation(value = " Add hobby for Person ", response = Person.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added a hobby for a Person "),
@@ -113,6 +150,14 @@ public class PersonController {
         person = personService.save(person);
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
+
+
+    /**
+     * This method handles http request for remove hobby from person entity.
+     * @param personId
+     * @param hobbyId
+     * @return org.springframework.http.ResponseEntity<person>
+     */
 
     @ApiOperation(value = " Remove hobby for Person ", response = Person.class)
     @ApiResponses(value = {

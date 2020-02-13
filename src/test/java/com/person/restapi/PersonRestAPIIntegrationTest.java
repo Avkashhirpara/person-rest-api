@@ -98,59 +98,61 @@ public class PersonRestAPIIntegrationTest {
     }
     @Test
     void test_delete_person() {
-        aric = personRepository.save(aric);
-        String url = String.format("/api/v1/persons/%s", aric.getId());
+        deleteMe = personRepository.save(deleteMe);
+        String url = String.format("/api/v1/persons/%s", deleteMe.getId());
         ResponseEntity<Void> responseEntity = testRestTemplate.exchange(url, HttpMethod.DELETE, null,Void.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Optional<Person> foundPerson = personRepository.findById(aric.getId());
+        Optional<Person> foundPerson = personRepository.findById(deleteMe.getId());
         assertFalse(foundPerson.isPresent());
     }
 
+
+
     @Test
     void test_add_hobby_for_person() {
-        aric = personRepository.save(aric);
-        shopping = hobbyRepository.save(shopping);
+        hobbyPerson = personRepository.save(hobbyPerson);
+        personHobby = hobbyRepository.save(personHobby);
 
-        String url = String.format("/api/v1/persons/%s/hobby/%s", aric.getId(), shopping.getId());
+        String url = String.format("/api/v1/persons/%s/hobby/%s", hobbyPerson.getId(), personHobby.getId());
         ResponseEntity<Person> responseEntity = testRestTemplate.postForEntity(url, null, Person.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        assertEquals(aric.getId(), responseEntity.getBody().getId());
-        assertEquals(aric.getFirst_name(), responseEntity.getBody().getFirst_name());
+        assertEquals(hobbyPerson.getId(), responseEntity.getBody().getId());
+        assertEquals(hobbyPerson.getFirst_name(), responseEntity.getBody().getFirst_name());
 
-        Optional<Person> foundPerson = personRepository.findById(aric.getId());
+        Optional<Person> foundPerson = personRepository.findById(hobbyPerson.getId());
         assertTrue(foundPerson.isPresent());
         assertEquals(1, foundPerson.get().getHobby().size());
-        assertTrue(foundPerson.get().getHobby().contains(shopping));
+        assertTrue(foundPerson.get().getHobby().contains(personHobby));
 
-        Optional<Hobby> foundHobby = hobbyRepository.findById(shopping.getId());
+        Optional<Hobby> foundHobby = hobbyRepository.findById(personHobby.getId());
         assertTrue(foundHobby.isPresent());
         assertEquals(1, foundHobby.get().getPerson().size());
-        assertTrue(foundHobby.get().getPerson().contains(aric));
+        assertTrue(foundHobby.get().getPerson().contains(hobbyPerson));
     }
 
     @Test
     void test_remove_hobby_of_person() {
 
-        shopping = hobbyRepository.save(shopping);
-        aric = personRepository.save(aric);
-        aric.addHobby(shopping);
-        aric = personRepository.save(aric);
+        removeHobby = hobbyRepository.save(removeHobby);
+        removePerson = personRepository.save(removePerson);
+        removePerson.addHobby(removeHobby);
+        removePerson = personRepository.save(removePerson);
 
-        String url = String.format("/api/v1/persons/%s/hobby/%s", aric.getId(), shopping.getId());
+        String url = String.format("/api/v1/persons/%s/hobby/%s", removePerson.getId(), removeHobby.getId());
         ResponseEntity<Person> responseEntity = testRestTemplate.exchange(url, HttpMethod.DELETE, null, Person.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        assertEquals(aric.getId(), responseEntity.getBody().getId());
-        assertEquals(aric.getFirst_name(), responseEntity.getBody().getFirst_name());
+        assertEquals(removePerson.getId(), responseEntity.getBody().getId());
+        assertEquals(removePerson.getFirst_name(), responseEntity.getBody().getFirst_name());
 
-        Optional<Person> foundPerson = personRepository.findById(aric.getId());
+        Optional<Person> foundPerson = personRepository.findById(removePerson.getId());
         assertTrue(foundPerson.isPresent());
         assertEquals(0, foundPerson.get().getHobby().size());
 
-        Optional<Hobby> foundHobby = hobbyRepository.findById(shopping.getId());
+        Optional<Hobby> foundHobby = hobbyRepository.findById(removeHobby.getId());
         assertTrue(foundHobby.isPresent());
         assertEquals(0, foundHobby.get().getPerson().size());
     }
@@ -197,47 +199,47 @@ public class PersonRestAPIIntegrationTest {
     void test_update_hobby() {
         orgSinging = hobbyRepository.save(orgSinging);
 
-        HttpEntity<Hobby> requestUpdate = new HttpEntity<>(udpatedSinging);
+        HttpEntity<Hobby> requestUpdate = new HttpEntity<>(updatedSinging);
         String url = String.format("/api/v1/hobbies/%s", orgSinging.getId());
         ResponseEntity<Hobby> responseEntity = testRestTemplate.exchange(url, HttpMethod.PUT, requestUpdate, Hobby.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        assertEquals(udpatedSinging.getName(), responseEntity.getBody().getName());
+        assertEquals(updatedSinging.getName(), responseEntity.getBody().getName());
 
         Optional<Hobby> foundHobby = hobbyRepository.findById(orgSinging.getId());
         assertTrue(foundHobby.isPresent());
-        assertEquals(udpatedSinging.getName(), foundHobby.get().getName());
+        assertEquals(updatedSinging.getName(), foundHobby.get().getName());
     }
     @Test
     void test_delete_hobby() {
-        cricket = hobbyRepository.save(cricket);
-        String url = String.format("/api/v1/hobbies/%s", cricket.getId());
+        deleteHobby = hobbyRepository.save(deleteHobby);
+        String url = String.format("/api/v1/hobbies/%s", deleteHobby.getId());
         ResponseEntity<String> responseEntity = testRestTemplate.exchange(url, HttpMethod.DELETE, null,String.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Optional<Hobby> foundHobby = hobbyRepository.findById(cricket.getId());
+        Optional<Hobby> foundHobby = hobbyRepository.findById(deleteHobby.getId());
         assertFalse(foundHobby.isPresent());
     }
-
-
-
-
-
-
 
     static Person aric;
     static Person originalHarry;
     static Person updatedHarry;
+    static Person deleteMe;
+    static Person hobbyPerson;
     static Person jinny;
     static Person peter;
+    static Person removePerson;
 
     static Hobby shopping;
     static Hobby football;
     static Hobby chess;
     static Hobby cricket;
+    static Hobby personHobby;
+    static Hobby removeHobby;
 
     static Hobby orgSinging;
-    static Hobby udpatedSinging;
+    static Hobby updatedSinging;
+    static Hobby deleteHobby;
 
     @BeforeAll
     static void setUp() throws Exception {
@@ -247,15 +249,21 @@ public class PersonRestAPIIntegrationTest {
         chess = new Hobby("chess");
         cricket = new Hobby("cricket");
         orgSinging = new Hobby("singging");
-        udpatedSinging = new Hobby("singing");
+        updatedSinging = new Hobby("singing");
+        personHobby = new Hobby("personHobby");
+        removeHobby = new Hobby("removeHobby");
+        deleteHobby = new Hobby("deleteHobby");
 
         aric = new Person("Aric", "Thomas", "Red", 24, new HashSet<>());
 
         originalHarry = new Person("Herry", "Poter", "blue", 12, new HashSet<>());
         updatedHarry = new Person("Harry", "Potter", "Blue", 16, new HashSet<>());
+        deleteMe = new Person("Delete", "Me", "Blue", 66, new HashSet<>());
+        hobbyPerson = new Person("Hobby", "Person", "Orange", 16, new HashSet<>());
 
         jinny = new Person("Jinny", "Hamilton", "Green", 20, new HashSet<>());
         peter = (new Person("Peter", "Danzel", "White", 30, new HashSet<>()));
+        removePerson = (new Person("Remove", "Person", "White", 30, new HashSet<>()));
 
     }
 }

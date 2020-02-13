@@ -7,7 +7,12 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.person.restapi.hobby.Hobby;
 
 import java.io.IOException;
-
+/**
+ * Deserializer for Hobby entity. Used by Object Mapper
+ * to convert Hobby entity to its json represantation
+ * @author Avkash
+ * @version v1
+ */
 public class HobbySerializer extends StdSerializer<Hobby> {
     public HobbySerializer() {
         this(null);
@@ -17,6 +22,13 @@ public class HobbySerializer extends StdSerializer<Hobby> {
         super(t);
     }
 
+    /**
+     * Convert Hobby entity to json representation
+     * @param hobby
+     * @param jsonGenerator
+     * @param serializerProvider
+     * @throws IOException
+     */
     @Override
     public void serialize(Hobby hobby, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();

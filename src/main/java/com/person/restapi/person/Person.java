@@ -18,6 +18,13 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Hobby is a main entity.
+ * Please see {@link com.person.restapi.person.Person}
+ * @author Avkashh
+ * @version v1.
+ */
+
 @Entity
 @Table(name="person")
 @JsonSerialize(using = PersonSerializer.class)

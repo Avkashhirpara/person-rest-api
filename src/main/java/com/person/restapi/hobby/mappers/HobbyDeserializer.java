@@ -10,6 +10,12 @@ import com.person.restapi.hobby.Hobby;
 
 import java.io.IOException;
 
+/**
+ * Deserializer for Hobby entity. Used by Object Mapper
+ * to convert httpentity<Hobby> to Hobby entity
+ * @author Avkash
+ * @version v1
+ */
 public class HobbyDeserializer extends StdDeserializer<Hobby> {
     public HobbyDeserializer() {
         this(null);
@@ -19,6 +25,15 @@ public class HobbyDeserializer extends StdDeserializer<Hobby> {
         super(vc);
     }
 
+
+    /**
+     * Convert json representation to java object of Hobby entity.
+     * @param jsonParser
+     * @param deserializationContext
+     * @return Hobby
+     * @throws IOException
+     * @throws JsonProcessingException
+     */
     @Override
     public Hobby deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
