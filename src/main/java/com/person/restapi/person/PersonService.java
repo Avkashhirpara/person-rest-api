@@ -27,4 +27,8 @@ public class PersonService {
     public Person save(Person aric) {
         return new Person();
     }
+
+    public Person update(long l, Person updatedAric) {
+            return new Person();
+    }
 }

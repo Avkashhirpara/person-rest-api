@@ -54,7 +54,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    void create_person() throws Exception{
+    void test_create_person() throws Exception{
         Mockito.when(personService.save(aric)).thenReturn(aric);
         ObjectMapper mapper = new ObjectMapper();
         String personAsJson = mapper.writeValueAsString(aric);
@@ -66,6 +66,20 @@ public class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.first_name", Matchers.is(aric.getFirst_name())))
                 .andDo(MockMvcResultHandlers.print());
 
+    }
+
+    @Test
+    void test_update_person() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String personAsJson = mapper.writeValueAsString(updatedAric);
+        Mockito.when(personService.update(1L,updatedAric)).thenReturn(updatedAric);
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/persons/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(personAsJson)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.first_name",Matchers.is(updatedAric.getFirst_name())))
+                .andDo(MockMvcResultHandlers.print());
     }
 
 

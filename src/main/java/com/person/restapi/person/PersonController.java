@@ -2,7 +2,6 @@ package com.person.restapi.person;
 
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,6 @@ public class PersonController {
 
 
     @ApiOperation(value = "Retrieve person by personId ", response = Person.class)
-    @ApiParam(value = "Person Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved a Person "),
             @ApiResponse(code = 401, message = "You are not authorized to view Person"),
@@ -53,7 +51,6 @@ public class PersonController {
     }
 
     @ApiOperation(value = " Create Person ", response = Person.class)
-    @ApiParam(value = "Person Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved a Person "),
             @ApiResponse(code = 401, message = "You are not authorized to view Person"),
