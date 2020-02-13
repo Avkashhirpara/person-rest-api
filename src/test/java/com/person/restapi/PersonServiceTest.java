@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,6 +36,15 @@ public class PersonServiceTest {
         Person lastPerson = persons.get(persons.size()-1);
         Assertions.assertEquals(aric,lastPerson);
     }
+
+    @Test
+    void get_person_by_personId(){
+        Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(aric));
+        Person foundPerson = personService.findById(1L);
+        Assertions.assertEquals(aric,foundPerson);
+
+    }
+
 
 
 
