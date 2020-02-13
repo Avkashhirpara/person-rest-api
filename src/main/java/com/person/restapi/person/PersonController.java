@@ -82,7 +82,7 @@ public class PersonController {
         return new ResponseEntity<>(newPerson, HttpStatus.OK);
     }
 
-    @ApiOperation(value = " Delete Person ", response = Person.class)
+    @ApiOperation(value = " Delete Person ", response = Void.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully deleted a Person "),
             @ApiResponse(code = 401, message = "You are not authorized to delete a Person"),
@@ -114,15 +114,20 @@ public class PersonController {
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
-
-
-
-
-
-
-
-
-
-
+    @ApiOperation(value = " Remove hobby for Person ", response = Person.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed a hobby for a Person "),
+            @ApiResponse(code = 401, message = "You are not authorized to remove a hobby for a Person"),
+            @ApiResponse(code = 403, message = "Accessing Person you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The Person you were trying to reach is not found")
+    })
+    @DeleteMapping("/persons/{personId}/hobby/{hobbyId}")
+    ResponseEntity<Person> removeHobbyFromPerson(@PathVariable Long personId, @PathVariable Long hobbyId) {
+        Person person = personService.findById(personId);
+        Hobby hobby = hobbyService.findById(hobbyId);
+        person.removeHobby(hobby);
+        person = personService.save(person);
+        return new ResponseEntity<>(person, HttpStatus.OK);
+    }
 
 }
