@@ -24,15 +24,25 @@ public class PersonService {
                 .orElseThrow(() -> new PersonNotFoundException("Person not found for PersonId +"+personId));
     }
 
-    public Person save(Person aric) {
-        return new Person();
+    public Person save(Person person) {
+        return personRepository.save(person);
     }
 
-    public Person update(long l, Person updatedAric) {
-            return new Person();
+    public Person update(Long personId,Person person) {
+        Person updatedPerson = personRepository.findById(personId).
+                orElseThrow(()-> new PersonNotFoundException("Person not found for this id"+personId));
+        arrangeReferences(person,updatedPerson);
+        return personRepository.save(updatedPerson);
     }
 
     public void deleteById(Person jinny) {
 
+    }
+
+    private void arrangeReferences(Person srcPerson,Person dstPerson) {
+        dstPerson.setAge(srcPerson.getAge());
+        dstPerson.setFavourite_colour(srcPerson.getFavourite_colour());
+        dstPerson.setFirst_name(srcPerson.getFirst_name());
+        dstPerson.setLast_name(srcPerson.getLast_name());
     }
 }

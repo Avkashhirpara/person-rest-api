@@ -51,6 +51,14 @@ public class PersonServiceTest {
         Assertions.assertEquals(aric,savedPerson);
     }
 
+    @Test
+    void test_update_person(){
+        Mockito.when(personRepository.save(updatedAric)).thenReturn(updatedAric);
+        Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(aric));
+        Person savedPerson = personService.update(1L,updatedAric);
+        assert savedPerson.equals(updatedAric);
+    }
+
 
 
 
