@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PersonRestAPIIntegrationTest {
+public class PersonRestAPIIT {
 
     @Autowired
     private PersonRepository personRepository;
